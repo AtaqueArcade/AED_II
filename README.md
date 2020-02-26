@@ -1,2 +1,2 @@
 # AED_II
-Repositorio de AEDII
+Proyecto para la asignatura _Algoritmos y Estructuras de Datos_ de 2017.
