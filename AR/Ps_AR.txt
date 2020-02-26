@@ -1,0 +1,81 @@
+Programa ejAR
+
+tipo moneda{
+	valor:entero
+	peso:entero
+}
+
+var
+	n:entero
+	Sol1[0..n]:entero
+	Sol2[0..n]:entero
+	tipos[0..n]:moneda
+
+
+//Este método hallará el conjunto de monedas mas ligeras
+operacion MonedaLigera(valor:entero)
+var
+	ratio[0..n]:entero
+	resto:entero
+begin
+	resto:=valor
+	i:entero:=0
+	repetir
+		ratio[i]:=tipos.valor/tipos.peso	
+	hasta i<n
+	repetir
+		micero:entero:=0
+		tipoescogido:entero:=0
+		repetir
+			si (ratio[i] <= micero && ((resto - tipos[i].valor) >= 0))
+			begin
+				tipoescogido:=i
+				micero:=ratio[i]
+			end
+		hasta i<n
+		Sol1[tipoescogido]++
+		resto:=resto-tipos[tipoescogido].valor
+	hasta resto == 0
+end
+
+//Este método hallará el conjunto de monedas mas pesadas
+operacion MonedaPesada(valor:entero)
+var
+	ratio[0..n]:entero
+	resto:entero
+begin
+	resto = valor
+	i:entero:=0
+	repetir
+		ratio[i]:=tipos.valor/tipos.peso	
+	hasta i<n
+	repetir
+		micero:entero:=0
+		tipoescogido:entero:=0
+		repetir
+			si (ratio[i] >= micero && ((resto - tipos[i].valor) >= 0))
+			begin
+				tipoescogido:=i
+				micero:=ratio[i]
+			end
+		hasta i<n
+		Sol2[tipoescogido]++
+		resto:=resto - tipos[tipoescogido].valor
+	hasta resto == 0
+end
+
+//Metodo principal del programa
+main()
+var
+	V:entero
+begin
+	[Lee los datos por pantalla]
+	MonedaPesada(V)
+	MonedaLigera(V)
+	[Calcula el peso total de ambos vectores y los resta]
+	[Muestra los resultados por pantalla]
+end
+		
+	
+	
+	

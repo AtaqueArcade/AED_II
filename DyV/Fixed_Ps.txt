@@ -1,0 +1,90 @@
+Programa ejDyV
+
+tipo respuesta{
+	i,j: entero
+	numpares: entero
+}
+var
+	C1,C2,C: cadena
+	tamañorespuesta: entero
+	tamañominimo: entero
+	solucion: respuesta
+
+//Pequeño detecta si la cadena tiene el tamaño mínimo
+operacion Pequeño(i,j: entero) devuelve booleano
+begin
+	si (j-i <= tamañominimo)
+		devuelve verdadero
+	sino devuelve falso
+	finsi
+end
+
+//solucionDirecta buscará la solución de forma lineal en el caso minimo
+operación solucionDirecta(i,j: entero) devuelve respuesta
+begin
+	resultado: respuesta
+	numpares, contador: entero
+	contador := i
+	numpares := -1
+	repetir 
+		contador:=contador+1
+		si (contenidoEnCadena(C1, cadena[contador]) y contenidoEnCadena(C2,cadena[contador+1]))
+			numpares:= numpares+1
+		finsi
+	hasta (contador < j)
+	resultado.i := i
+	resultado.j := j
+	resultado.numpares=numpares
+	devolver resultado
+end
+
+//Función combinar devolverá la mejor cadena entre la derecha, la izquierda y las que quedan entre estas.
+operación combinar(cadena1,cadena2: respuesta) devuelve respuesta
+begin
+	mejor: respuesta
+	mejor.numpares := -1
+	contador: entero := 0
+	numpares: entero := 0
+	caux: entero
+	medioi, medioj: entero
+	si (cadena1.numpares > mejor.numpares) mejor = cadena1
+	
+	contador := cadena2.i-tamañorespuesta
+	repetir
+		contador:=contador+1
+		repetir
+			caux := contador
+			si (contenidoEnCadena(C1, cadena[caux]) y contenidoEnCadena(C2,cadena[caux+1]))
+				numpares:= numpares+1
+			finsi
+		hasta (caux < t-1)
+		si (numpares > mejor.numpares) mejor=[cadena desde contador hasta contador+t]
+	hasta (contador = cadena2.i-1)
+
+	si (cadena1.numpares > mejor.numpares) mejor = cadena1
+		
+	devolver mejor
+end
+
+//Función divide y vencerás
+divideyvenceras(i,j: entero) devuelve respuesta
+begin
+	si(pequeño(i,j)) devuelve solucionDirecta(i,j)
+
+	m: entero
+	m:= (i+j)/2
+	respuesta solIzq = divideyvenceras(i,m)
+	respuesta solDer = divideyvenceras(m+1,j)
+	devuelve combinar(solIzq,solDer)
+end
+
+//Main del programa
+main()
+begin
+	[Lee los datos por pantalla]
+	i,j: entero
+	i=0
+	j=C.longitud()
+	divideyvenceras(i,j)
+	[Muestra los datos por pantalla con formato]
+end

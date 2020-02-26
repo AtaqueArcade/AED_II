@@ -1,0 +1,90 @@
+Program ejBT
+
+tipo estado{
+	tarea:entero
+	ocupada:booleano
+}
+
+var
+	M,A:entero
+	C[0..M][0..A]:entero
+	nivel:entero
+	s[0..M]:entero
+	rep:entero
+	reptotal:entero
+	libre[0..A]:estado
+	solucion[0..A]:estado
+
+//Funcion generar
+operacion generar()
+begin
+	s[nivel]++
+	si s[nivel]< M
+	begin
+		si C[s[nivel]][nivel] == 1
+		begin
+			rep++
+			libre[s[nivel]].tarea:=nivel
+			libre[s[nivel]].ocupada:=true
+		end
+	end
+end
+
+//Funcion criterio
+operacion criterio() devuelve booleano
+begin
+	devolver (nivel > A)
+end
+
+//Funcion solucion
+operacion solucion() devuelve booleano
+begin
+	devolver (nivel == A-1)
+end
+
+//Funcion mashermanos
+operacion masHermanos() devuelve booleano
+begin
+	devolver (s[nivel] < M)
+end
+
+//Funcion retroceder
+operacion retroceder()
+begin
+	s[nivel]:=-1
+	nivel--
+end
+
+//Funcion principal de backtracking
+backtracking()
+var
+	fin:booleano
+begin
+	nivel:=1
+	s:=1
+	fin:= false 
+	repetir
+		Generar () 
+    	si solucion ()
+		begin
+			[guardo libre en solucion y rep en reptotal]
+		end 
+        sino si criterio ()
+	 	begin
+			nivel:= nivel+1
+		end
+     	sino mientras !masHermanos() hacer
+		begin
+			Retroceder () 
+		end
+		si nivel = -1 fin:=true
+	hasta fin
+end
+
+//Main de nuestro programa
+begin
+	[lee los datos por pantalla]
+	backtracking()
+	[muestra la cadena solucion recorriendola]
+end
+
